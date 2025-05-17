@@ -21,7 +21,6 @@ public class Empleado implements Invitable {
         System.out.println("Invitando al empleado: " + nombre + " " + apellidos + " (" + correo + ")");
     }
 
-    // Getters
     public String getId() { return id; }
     public String getApellidos() { return apellidos; }
     public String getNombre() { return nombre; }

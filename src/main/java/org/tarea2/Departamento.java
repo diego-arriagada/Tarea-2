@@ -26,7 +26,6 @@ public class Departamento implements Invitable {
         }
     }
 
-    // Getter
     public String getNombre() { return nombre; }
     public List<Empleado> getEmpleados() { return empleados; }
 }

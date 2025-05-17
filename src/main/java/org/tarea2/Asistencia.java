@@ -12,7 +12,6 @@ class Asistencia {
         this.retraso = retraso;
     }
 
-    // Getters
     public Empleado getEmpleado() { return empleado; }
     public Instant getHora() { return hora; }
     public boolean esRetraso() { return retraso; }
