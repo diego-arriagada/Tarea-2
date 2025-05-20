@@ -13,7 +13,7 @@ abstract class Reunion {
     private TipoReunion tipo;
     private Empleado organizador;
 
-    private ArrayList<Invitable> invitados = new ArrayList<>();
+    private ArrayList<Invitacion> invitados = new ArrayList<>();
     private ArrayList<String> notas = new ArrayList<>();
     private ArrayList<Empleado> asistencias = new ArrayList<>();
     private ArrayList<Empleado> ausencias = new ArrayList<>();
@@ -28,9 +28,6 @@ abstract class Reunion {
         this.organizador = organizador;
     }
 
-    public void agregarInvitado(Invitable invitado) {
-        invitados.add(invitado);
-    }
     public void agregarNota(String nota) {
         notas.add(nota);
     }
