@@ -1,18 +1,16 @@
 package org.tarea2;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 class Asistencia {
-    private Empleado empleado;
-    private Instant hora;
-    private boolean retraso;
+    private List<Empleado> empleados = new ArrayList<>();
 
-    public Asistencia(Empleado empleado, Instant hora, boolean retraso) {
-        this.empleado = empleado;
-        this.hora = hora;
-        this.retraso = retraso;
+    public void agregarEmpleado(Empleado empleado) {
+        empleados.add(empleado);
     }
 
-    public Empleado getEmpleado() { return empleado; }
-    public Instant getHora() { return hora; }
-    public boolean esRetraso() { return retraso; }
+    public List<Empleado> getEmpleados() {
+        return empleados;
+    }
 }

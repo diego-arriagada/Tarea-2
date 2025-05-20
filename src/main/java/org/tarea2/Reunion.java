@@ -14,10 +14,11 @@ abstract class Reunion {
     private Empleado organizador;
 
     private ArrayList<Invitable> invitados = new ArrayList<>();
-    private ArrayList<Asistencia> asistencias = new ArrayList<>();
     private ArrayList<String> notas = new ArrayList<>();
-    private ArrayList<Asistencia> ausencias = new ArrayList<>();
-    private ArrayList<Asistencia> atrasos = new ArrayList<>();
+    private ArrayList<Empleado> asistencias = new ArrayList<>();
+    private ArrayList<Empleado> ausencias = new ArrayList<>();
+    private ArrayList<Empleado> atrasos = new ArrayList<>();
+    private ArrayList<Instant> horasLlegada = new ArrayList<>();
 
     public Reunion(Instant fecha, Instant horaPrevista, Duration duracionPrevista, TipoReunion tipo, Empleado organizador) {
         this.fecha = fecha;
@@ -33,13 +34,13 @@ abstract class Reunion {
     public void agregarNota(String nota) {
         notas.add(nota);
     }
-    public ArrayList<Asistencia> obtenerAsistencia(){
+    public ArrayList<Empleado> obtenerAsistencia(){
         return asistencias;
     }
-    public ArrayList<Asistencia> obtenerAusencias(){
+    public ArrayList<Empleado> obtenerAusencias(){
         return ausencias;
     }
-    public ArrayList<Asistencia> obtenerAtrasos(){
+    public ArrayList<Empleado> obtenerAtrasos(){
         return atrasos;
     }
     public int obtenerTotalAsistencia(){
