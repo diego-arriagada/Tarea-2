@@ -86,7 +86,6 @@ abstract class Reunion {
             asistencias.agregarEmpleado(empleado);
             atrasos.agregarEmpleadoTarde(empleado);
         }
-
     }
 
     public void agregarNota(String nota) {
@@ -107,19 +106,34 @@ abstract class Reunion {
     public float obtenerPorcentajeAsistencia(){
         return (float) asistencias.getAsistencias().size() /invitados.size() * 100;
     }
+
+    /**
+     * Método que calcula el tiempo real de la reunión en minutos.
+     *
+     * @return El tiempo real de la reunión en minutos.
+     */
     public float calcularTiempoReal(){
         Duration tiempoReunion = Duration.between(horaInicio, horaFin);
-        return tiempoReunion.toMinutes();
-        //return (float) tiempoReunion.toSeconds()/3600; Opcion para retornar en formato de horas la duracion total para que tenga sentido que retorne un float
+        return (float) tiempoReunion.toSeconds()/60;
     }
+
+    /**
+     * Método que inicia la reunión.
+     *
+     * @return El tiempo restante para la reunión en minutos.
+     */
     public void iniciar(){
         if(!reunionIniciada && !reunionFinalizada){
             this.horaInicio = Instant.now();
             reunionIniciada = true;
         }
-
-
     }
+
+    /**
+     * Método que finaliza la reunión.
+     *
+     * Genera un informe de la reunión en un archivo de texto.
+     */
     public void finalizar(){
         if(reunionIniciada && !reunionFinalizada){
             this.horaFin = Instant.now();
@@ -133,8 +147,7 @@ abstract class Reunion {
                 writer.write("Fecha y hora de inicio prevista: "+ formatter.format(horaPrevista) + "\n");
                 writer.write("Hora de inicio de la reunion: " + formatter.format(horaInicio)+"\n");
                 writer.write("Hora de fin de la reunion: " + formatter.format(horaFin) + "\n");
-                Duration duracionReunion = Duration.between(horaInicio,horaFin);
-                writer.write("Duracion de la reunion: " + duracionReunion.toMinutes()+"\n");
+                writer.write("Duracion de la reunion: " + this.calcularTiempoReal());
                 writer.write("Tipo de reunion: " + tipo+"\n");
                 if(this instanceof ReunionPresencial){
                     writer.write("La reunion fue presencial, la sala fue: " + ((ReunionPresencial) this).getSala());
