@@ -7,6 +7,19 @@ import java.io.FileWriter;
 import java.time.format.DateTimeFormatter; // usado para escribir el texto en buen formato
 import java.time.ZoneId;                   // Tambien
 
+/**
+ * La clase Reunion representa una reunión programada por un organizador y con una lista de invitados.
+ *
+ * Permite agregar invitados, marcar asistencia, agregar notas, iniciar la reunion, finalizar la reunion y calcular el tiempo real de la reunión.
+ * Además, permite generar un informe de la reunión en un archivo de texto.
+ * Este informe incluye todas las propiedades relevantes de la reunion.
+ *
+ * @author Diego Arriagada
+ * @author Victor Galaz
+ * @author Matias Catril
+ * @version 1.0
+ */
+
 abstract class Reunion {
     private static int contadorReuniones = 0;
     private final int numeroReunion;
@@ -36,12 +49,19 @@ abstract class Reunion {
         this.organizador = organizador;
     }
 
+    /**
+     * Método que agrega un invitado a la reunión.
+     *
+     * Funciona como un filtro para evitar que se agreguen empleados duplicados a la lista de invitados.
+     *
+     * @param empleado El empleado que se va a agregar como invitado.
+     */
     public void agregarInvitado(Empleado empleado){
         if((this.getInvitados().stream().filter(comp -> comp.equals(empleado)).count()) == 0) {
             invitados.add(empleado);
         }
         if((this.obtenerAusencias().stream().filter(comp -> comp.equals(empleado)).count()) == 0){
-        ausencias.add(empleado);          //Agregamos empleado a ausencias para luego restar de invitados a cada persona que llega para obtener los reales ausentes
+        ausencias.add(empleado);
             }
         }
 
@@ -49,6 +69,13 @@ abstract class Reunion {
         return invitados;
     }
 
+    /**
+     * Método para marcar la asistencia de un empleado a la reunión.
+     *
+     *
+     *
+     * @return El número de reunión.
+     */
     public void marcarAsistencia(Empleado empleado){
         Duration auxiliarAtraso = Duration.between(Instant.now(),horaPrevista);
         if((int)auxiliarAtraso.toSeconds()>=0){

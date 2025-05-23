@@ -1,8 +1,16 @@
 package org.tarea2;
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * La clase Asistencia cumple la función de almacenar los empleados que asistieron a una reunión.
+ *
+ * Maneja la lista de asistencia como arreglos de objetos Empleado y permite agregar empleados a la lista mediante un método.
+ *
+ * @author Diego Arriagada
+ * @author Victor Galaz
+ * @author Matias Catril
+ * @version 1.0
+ */
 
 class Asistencia {
     private ArrayList<Empleado> asistentes = new ArrayList<>();

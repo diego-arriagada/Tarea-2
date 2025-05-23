@@ -1,5 +1,15 @@
 package org.tarea2;
 
+/**
+ * Clase que representa a un único empleado de la empresa.
+ *
+ * Implementa la interfaz Invitable, lo que permite invitar a un empleado específico a una reunión.
+ * @author Diego Arriagada
+ * @author Victor Galaz
+ * @author Matias Catril
+ * @version 1.0
+ */
+
 public class Empleado implements Invitable {
     private String id;
     private String apellidos;
@@ -23,6 +33,11 @@ public class Empleado implements Invitable {
         this.correo = correo;
     }
 
+    /**
+     * Método que permite invitar a un único empleado a una reunión.
+     *
+     * @param reunion La reunión a la que se invitará al empleado.
+     */
     @Override
     public void invitar(Reunion reunion) {
         reunion.agregarInvitado(this);
