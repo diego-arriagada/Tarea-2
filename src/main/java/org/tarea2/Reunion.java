@@ -37,8 +37,16 @@ abstract class Reunion {
     }
 
     public void agregarInvitado(Empleado empleado){
-        invitados.add(empleado);
+        if((this.getInvitados().stream().filter(comp -> comp.equals(empleado)).count()) == 0) {
+            invitados.add(empleado);
+        }
+        if((this.obtenerAusencias().stream().filter(comp -> comp.equals(empleado)).count()) == 0){
         ausencias.add(empleado);          //Agregamos empleado a ausencias para luego restar de invitados a cada persona que llega para obtener los reales ausentes
+            }
+        }
+
+    public ArrayList<Empleado> getInvitados(){
+        return invitados;
     }
 
     public void marcarAsistencia(Empleado empleado){
