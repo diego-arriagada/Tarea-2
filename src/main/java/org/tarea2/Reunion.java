@@ -54,6 +54,7 @@ abstract class Reunion {
         if((int)auxiliarAtraso.toSeconds()>=0){
             asistencias.agregarEmpleado(empleado);
         } else{
+            asistencias.agregarEmpleado(empleado);
             atrasos.agregarEmpleadoTarde(empleado);
         }
 
@@ -79,7 +80,7 @@ abstract class Reunion {
     }
     public float calcularTiempoReal(){
         Duration tiempoReunion = Duration.between(horaInicio, horaFin);
-        return tiempoReunion.toSeconds();
+        return tiempoReunion.toMinutes();
         //return (float) tiempoReunion.toSeconds()/3600; Opcion para retornar en formato de horas la duracion total para que tenga sentido que retorne un float
     }
     public void iniciar(){
@@ -111,9 +112,16 @@ abstract class Reunion {
             writer.write("Lista de participantes y informacion sobre retrasos: \n");
             for(Empleado empleado : asistencias.getAsistencias()){
                 writer.write(empleado.getNombre()+ " " + empleado.getApellidos());
+                DateTimeFormatter formatterDuration = DateTimeFormatter
+                        .ofPattern("mm:ss")
+                        .withZone(ZoneId.systemDefault());
                 if(atrasos.getEmpleadosTarde().contains(empleado)){
                     Duration retrasoEmpleado = Duration.between(horaInicio, atrasos.getAtraso(empleado));
-                    writer.write("// Retraso: " + retrasoEmpleado.toMinutes() + "\n");
+                    String retrasoFormateado = String.format("%d:%02d",
+                            retrasoEmpleado.toMinutes(),
+                            retrasoEmpleado.toSecondsPart());
+
+                    writer.write(" // Retraso: " + retrasoFormateado + "\n");
                 } else {
                     writer.write("\n");
                 }
