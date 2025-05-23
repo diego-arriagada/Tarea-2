@@ -76,15 +76,17 @@ public abstract class Reunion {
      *
      *
      *
-     * @return El número de reunión.
+     *
      */
     public void marcarAsistencia(Empleado empleado){
         Duration auxiliarAtraso = Duration.between(Instant.now(),horaPrevista);
-        if((int)auxiliarAtraso.toSeconds()>=0){
-            asistencias.agregarEmpleado(empleado);
-        } else{
-            asistencias.agregarEmpleado(empleado);
-            atrasos.agregarEmpleadoTarde(empleado);
+        if(invitados.contains(empleado)) {
+            if ((int) auxiliarAtraso.toSeconds() >= 0) {
+                asistencias.agregarEmpleado(empleado);
+            } else {
+                asistencias.agregarEmpleado(empleado);
+                atrasos.agregarEmpleadoTarde(empleado);
+            }
         }
     }
 
