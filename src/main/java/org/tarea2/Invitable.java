@@ -1,5 +1,5 @@
 package org.tarea2;
 
-interface Invitable {
+interface   Invitable {
     void invitar();
 }

@@ -1,7 +1,7 @@
 package org.tarea2;
 import java.time.Instant;
 
-class Asistencia {
+class   Asistencia {
     private Empleado empleado;
     private Instant hora;
     private boolean retraso;
