@@ -5,13 +5,13 @@ import java.util.List;
 
 
 class Asistencia {
-    private List<Empleado> empleados = new ArrayList<>();
+    private ArrayList<Empleado> asistentes = new ArrayList<>();
 
     public void agregarEmpleado(Empleado empleado) {
-        empleados.add(empleado);
+        asistentes.add(empleado);
     }
 
-    public List<Empleado> getEmpleados() {
-        return empleados;
+    public ArrayList<Empleado> getAsistencias() {
+        return asistentes;
     }
 }

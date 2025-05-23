@@ -3,15 +3,15 @@ import java.time.Instant;
 import java.util.ArrayList;
 
 public class Invitacion {
-    private Instant horaInicio;
-    public Invitacion(Instant hora){
-        this.horaInicio = hora;
-        ArrayList<String> idEmpleado = new ArrayList<>();
-        ArrayList<Instant> horaLlegada = new ArrayList<>();
-    }
-
-    public void invitar(Empleado empleado){
-        System.out.println("Invitando al empleado: " + empleado.getNombre() + " " + empleado.getApellidos() + " (" + empleado.getCorreo() + ")");
+    private Instant horaInvitacion;
+    public <T> Invitacion(Reunion reunion,T remitente){
+        this.horaInvitacion = Instant.now();
+        if(remitente instanceof Empleado) {
+            ((Empleado)remitente).invitar(reunion);
+        }
+        else if(remitente instanceof Departamento){
+            ((Departamento)remitente).invitar(reunion);
+        }
     }
 
 }

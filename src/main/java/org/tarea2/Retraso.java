@@ -5,20 +5,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Retraso extends Asistencia {
-    private List<Instant> horasLlegada = new ArrayList<>();
-    private List<Empleado> atrasados = new ArrayList<>();
+    private ArrayList<Instant> horasLlegada = new ArrayList<>();
+    private ArrayList<Empleado> atrasados = new ArrayList<>();
 
-    public void agregarEmpleadoTarde(Empleado empleado, Instant hora) {
+    public Retraso(){}
+
+    public void agregarEmpleadoTarde(Empleado empleado) {
         super.agregarEmpleado(empleado);
         atrasados.add(empleado);
-        horasLlegada.add(hora);
+        horasLlegada.add(Instant.now());
     }
 
-    public List<Empleado> getEmpleadosTarde() {
-        return super.getEmpleados();
+    public ArrayList<Empleado> getEmpleadosTarde() {
+        return atrasados;
     }
 
-    public List<Instant> getHorasLlegada() {
+    public ArrayList<Instant> getHorasLlegada() {
         return horasLlegada;
+    }
+    public Instant getAtraso(Empleado empleado){
+        int indice = atrasados.indexOf(empleado);
+        return horasLlegada.get(indice);
     }
 }

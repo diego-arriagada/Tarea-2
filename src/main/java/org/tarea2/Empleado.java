@@ -17,9 +17,15 @@ public class Empleado implements Invitable {
         this.departamento.agregarEmpleado(this);
     }
 
+    public Empleado(String nombre, String apellidos, String correo){
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.correo = correo;
+    }
+
     @Override
-    public void invitar() {
-        System.out.println("Invitando al empleado: " + nombre + " " + apellidos + " (" + correo + ")");
+    public void invitar(Reunion reunion) {
+        reunion.agregarInvitado(this);
     }
 
 

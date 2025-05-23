@@ -18,12 +18,12 @@ abstract class Reunion {
 
     private TipoReunion tipo;
     private Empleado organizador;
+    private Asistencia asistencias = new Asistencia();
+    private Retraso atrasos = new Retraso();
 
-    private ArrayList<Invitacion> invitados = new ArrayList<>();
+    private ArrayList<Empleado> invitados = new ArrayList<>();
     private ArrayList<String> notas = new ArrayList<>();
-    private ArrayList<Empleado> asistencias = new ArrayList<>();
     private ArrayList<Empleado> ausencias = new ArrayList<>();
-    private ArrayList<Empleado> atrasos = new ArrayList<>();
     private ArrayList<Instant> horasLlegada = new ArrayList<>();
 
     public Reunion(Instant fecha, Instant horaPrevista, Duration duracionPrevista, TipoReunion tipo, Empleado organizador) {
@@ -36,23 +36,38 @@ abstract class Reunion {
         this.organizador = organizador;
     }
 
+    public void agregarInvitado(Empleado empleado){
+        invitados.add(empleado);
+        ausencias.add(empleado);          //Agregamos empleado a ausencias para luego restar de invitados a cada persona que llega para obtener los reales ausentes
+    }
+
+    public void marcarAsistencia(Empleado empleado){
+        Duration auxiliarAtraso = Duration.between(Instant.now(),horaPrevista);
+        if((int)auxiliarAtraso.toSeconds()>=0){
+            asistencias.agregarEmpleado(empleado);
+        } else{
+            atrasos.agregarEmpleadoTarde(empleado);
+        }
+
+    }
+
     public void agregarNota(String nota) {
         notas.add(nota);
     }
     public ArrayList<Empleado> obtenerAsistencia(){
-        return asistencias;
+        return asistencias.getAsistencias();
     }
     public ArrayList<Empleado> obtenerAusencias(){
         return ausencias;
     }
     public ArrayList<Empleado> obtenerAtrasos(){
-        return atrasos;
+        return atrasos.getEmpleadosTarde();
     }
     public int obtenerTotalAsistencia(){
-        return asistencias.size();
+        return asistencias.getAsistencias().size();
     }
     public float obtenerPorcentajeAsistencia(){
-        return (float) asistencias.size() /invitados.size() * 100;
+        return (float) asistencias.getAsistencias().size() /invitados.size() * 100;
     }
     public float calcularTiempoReal(){
         Duration tiempoReunion = Duration.between(horaInicio, horaFin);
@@ -61,18 +76,22 @@ abstract class Reunion {
     }
     public void iniciar(){
         this.horaInicio = Instant.now();
+
     }
     public void finalizar(){
         this.horaFin = Instant.now();
+
+        ausencias.removeAll(asistencias.getAsistencias());             //Removemos de los ausentes a todos los que llegaron
+
         try {
             FileWriter writer = new FileWriter("reunion" + numeroReunion + ".txt");
             DateTimeFormatter formatter = DateTimeFormatter
                     .ofPattern("dd/MM/yyyy HH:mm:ss")
                     .withZone(ZoneId.systemDefault());
-            writer.write("Fecha y hora de inicio: "+ formatter.format(horaPrevista) + "\n");
+            writer.write("Fecha y hora de inicio prevista: "+ formatter.format(horaPrevista) + "\n");
             writer.write("Hora de inicio de la reunion: " + formatter.format(horaInicio)+"\n");
             writer.write("Hora de fin de la reunion: " + formatter.format(horaFin) + "\n");
-            Duration duracionReunion = Duration.between(horaPrevista,horaFin);
+            Duration duracionReunion = Duration.between(horaInicio,horaFin);
             writer.write("Duracion de la reunion: " + duracionReunion.toMinutes()+"\n");
             writer.write("Tipo de reunion: " + tipo+"\n");
             if(this instanceof ReunionPresencial){
@@ -82,11 +101,13 @@ abstract class Reunion {
             }
             writer.write("\n");
             writer.write("Lista de participantes y informacion sobre retrasos: \n");
-            for(Empleado asistencia : asistencias){
-                writer.write(asistencia.getEmpleado().getNombre()+ " " + asistencia.getEmpleado().getApellidos());
-                if(asistencia.esRetraso()){
-                    Duration retrasoEmpleado = Duration.between(horaInicio,asistencia.getHora());
+            for(Empleado empleado : asistencias.getAsistencias()){
+                writer.write(empleado.getNombre()+ " " + empleado.getApellidos());
+                if(atrasos.getEmpleadosTarde().contains(empleado)){
+                    Duration retrasoEmpleado = Duration.between(horaInicio, atrasos.getAtraso(empleado));
                     writer.write("// Retraso: " + retrasoEmpleado.toMinutes() + "\n");
+                } else {
+                    writer.write("\n");
                 }
             }
             writer.write("Notas de la reunion en orden cronologico:\n");

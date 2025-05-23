@@ -19,10 +19,9 @@ public class Departamento implements Invitable {
     }
 
     @Override
-    public void invitar() {
-        System.out.println("Invitando a todo el departamento: " + nombre);
+    public void invitar(Reunion reunion) {
         for (Empleado empleado : empleados) {
-            empleado.invitar();
+            empleado.invitar(reunion);
         }
     }
 
