@@ -25,7 +25,7 @@ class ReunionTest {
 
         departamento2 = new Departamento("2");
         ahora = Instant.now();
-        horaPrevista = ahora.plus(1,ChronoUnit.HOURS);
+        horaPrevista = ahora.plus(5,ChronoUnit.SECONDS);
         reunion = new ReunionPresencial(ahora, horaPrevista, Duration.ofHours(1),TipoReunion.TECNICA,organizador,"Sala 1");
     }
 
@@ -40,7 +40,7 @@ class ReunionTest {
         Empleado empleadoNormal2 = new Empleado("21","Perez","Juan","juanper@empresa.cl",departamento2);
         Empleado empleadoNoInvitado = new Empleado("22","Martinez","Nicolas","nicolasmar@empresa.cl",departamento2);
         Empleado empleadoDuplicado = new Empleado ("10","Soto","Martin","martinsot@empresa.cl",departamento1);
-        Empleado externo1 = new Empleado("100","Catril","Matias");
+        Externo externo1 = new Externo("100","Catril","Matias");
         Empleado empleadoNull = null;
 
 
@@ -71,7 +71,28 @@ class ReunionTest {
     }
 
     @Test
-    void testMarcarAsistencia() {
+    void testMarcarAsistencia() throws InterruptedException {
+
+        Empleado empleadoAntes = new Empleado("11","Galaz","Victor","victorgal@empresa.cl",departamento1);
+        Empleado empleadoJusto = new Empleado("21","Perez","Juan","juanper@empresa.cl",departamento2);
+        Empleado empleadoDespues = new Empleado("01", "Arriagada", "Diego", "diegoarr@empresa.cl", departamento1);
+        Empleado empleadoNoInvitado = new Empleado("22","Martinez","Nicolas","nicolasmar@empresa.cl",departamento2);
+        Empleado empleadoDuplicado = new Empleado ("10","Soto","Martin","martinsot@empresa.cl",departamento1);
+        Externo externo1 = new Externo("100","Catril","Matias");
+        Empleado empleadoNull = null;
+
+        reunion.marcarAsistencia(empleadoNull);
+        reunion.marcarAsistencia(empleadoAntes);
+        Thread.sleep(5000);
+        reunion.marcarAsistencia(empleadoJusto);
+        Thread.sleep(1000);
+        reunion.marcarAsistencia(empleadoDespues);
+        reunion.marcarAsistencia(empleadoDuplicado);
+        reunion.marcarAsistencia(empleadoDuplicado);
+        reunion.marcarAsistencia(externo1);
+        reunion.marcarAsistencia(empleadoNoInvitado);
+
+        assertTrue
 
     }
 
