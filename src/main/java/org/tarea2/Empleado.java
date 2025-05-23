@@ -6,6 +6,7 @@ public class Empleado implements Invitable {
     private String nombre;
     private String correo;
     private Departamento departamento;
+    private Invitacion invitacion;
 
     public Empleado(String id, String apellidos, String nombre, String correo, Departamento departamento) {
         this.id = id;
@@ -20,6 +21,8 @@ public class Empleado implements Invitable {
     public void invitar() {
         System.out.println("Invitando al empleado: " + nombre + " " + apellidos + " (" + correo + ")");
     }
+
+
 
     public String getId() { return id; }
     public String getApellidos() { return apellidos; }
