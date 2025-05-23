@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * @version 1.0
  */
 
-class Retraso extends Asistencia {
+public class Retraso extends Asistencia {
     private ArrayList<Instant> horasLlegada = new ArrayList<>();
     private ArrayList<Empleado> atrasados = new ArrayList<>();
 

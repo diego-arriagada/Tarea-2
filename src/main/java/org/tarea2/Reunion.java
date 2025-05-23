@@ -20,7 +20,7 @@ import java.time.ZoneId;                   // Tambien
  * @version 1.0
  */
 
-abstract class Reunion {
+public abstract class Reunion {
     private static int contadorReuniones = 0;
     private final int numeroReunion;
     private Instant fecha;
@@ -37,7 +37,7 @@ abstract class Reunion {
     private Retraso atrasos = new Retraso();
 
     private ArrayList<Empleado> invitados = new ArrayList<>();
-    private ArrayList<String> notas = new ArrayList<>();
+    private ArrayList<Nota> notas = new ArrayList<>();
     private ArrayList<Empleado> ausencias = new ArrayList<>();
     private ArrayList<Instant> horasLlegada = new ArrayList<>();
 
@@ -88,7 +88,8 @@ abstract class Reunion {
         }
     }
 
-    public void agregarNota(String nota) {
+    public void agregarNota(String texto) {
+        Nota nota = new Nota(texto);
         notas.add(nota);
     }
     public ArrayList<Empleado> obtenerAsistencia(){
@@ -147,7 +148,7 @@ abstract class Reunion {
                 writer.write("Fecha y hora de inicio prevista: "+ formatter.format(horaPrevista) + "\n");
                 writer.write("Hora de inicio de la reunion: " + formatter.format(horaInicio)+"\n");
                 writer.write("Hora de fin de la reunion: " + formatter.format(horaFin) + "\n");
-                writer.write("Duracion de la reunion: " + this.calcularTiempoReal());
+                writer.write("Duracion de la reunion: " + this.calcularTiempoReal() + "\n");
                 writer.write("Tipo de reunion: " + tipo+"\n");
                 if(this instanceof ReunionPresencial){
                     writer.write("La reunion fue presencial, la sala fue: " + ((ReunionPresencial) this).getSala());
@@ -173,8 +174,8 @@ abstract class Reunion {
                     }
                 }
                 writer.write("Notas de la reunion en orden cronologico:\n");
-                for(String nota : notas){
-                    writer.write(nota + "\n");
+                for(Nota nota : notas){
+                    writer.write(nota.getTexto() + "\n");
                 }
                 writer.close();
             } catch (IOException e){

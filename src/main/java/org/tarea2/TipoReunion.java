@@ -9,6 +9,6 @@ package org.tarea2;
  * @version 1.0
  */
 
-enum TipoReunion {
+public enum TipoReunion {
     TECNICA, MARKETING, OTRO
 }

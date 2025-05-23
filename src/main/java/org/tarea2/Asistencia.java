@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @version 1.0
  */
 
-class Asistencia {
+public class Asistencia {
     private ArrayList<Empleado> asistentes = new ArrayList<>();
 
     public void agregarEmpleado(Empleado empleado) {
