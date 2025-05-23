@@ -15,6 +15,8 @@ abstract class Reunion {
     private Duration duracionPrevista;
     private Instant horaInicio;
     private Instant horaFin;
+    public Boolean reunionIniciada = false;
+    public Boolean reunionFinalizada = false;
 
     private TipoReunion tipo;
     private Empleado organizador;
@@ -84,56 +86,62 @@ abstract class Reunion {
         //return (float) tiempoReunion.toSeconds()/3600; Opcion para retornar en formato de horas la duracion total para que tenga sentido que retorne un float
     }
     public void iniciar(){
-        this.horaInicio = Instant.now();
+        if(!reunionIniciada && !reunionFinalizada){
+            this.horaInicio = Instant.now();
+            reunionIniciada = true;
+        }
+
 
     }
     public void finalizar(){
-        this.horaFin = Instant.now();
+        if(reunionIniciada && !reunionFinalizada){
+            this.horaFin = Instant.now();
+            ausencias.removeAll(asistencias.getAsistencias());             //Removemos de los ausentes a todos los que llegaron
 
-        ausencias.removeAll(asistencias.getAsistencias());             //Removemos de los ausentes a todos los que llegaron
-
-        try {
-            FileWriter writer = new FileWriter("reunion" + numeroReunion + ".txt");
-            DateTimeFormatter formatter = DateTimeFormatter
-                    .ofPattern("dd/MM/yyyy HH:mm:ss")
-                    .withZone(ZoneId.systemDefault());
-            writer.write("Fecha y hora de inicio prevista: "+ formatter.format(horaPrevista) + "\n");
-            writer.write("Hora de inicio de la reunion: " + formatter.format(horaInicio)+"\n");
-            writer.write("Hora de fin de la reunion: " + formatter.format(horaFin) + "\n");
-            Duration duracionReunion = Duration.between(horaInicio,horaFin);
-            writer.write("Duracion de la reunion: " + duracionReunion.toMinutes()+"\n");
-            writer.write("Tipo de reunion: " + tipo+"\n");
-            if(this instanceof ReunionPresencial){
-                writer.write("La reunion fue presencial, la sala fue: " + ((ReunionPresencial) this).getSala());
-            } else if(this instanceof ReunionVirtual){
-                writer.write("La reunion fue virtual, el enlace fue: " + ((ReunionVirtual) this).getEnlace());
-            }
-            writer.write("\n");
-            writer.write("Lista de participantes y informacion sobre retrasos: \n");
-            for(Empleado empleado : asistencias.getAsistencias()){
-                writer.write(empleado.getNombre()+ " " + empleado.getApellidos());
-                DateTimeFormatter formatterDuration = DateTimeFormatter
-                        .ofPattern("mm:ss")
+            try {
+                FileWriter writer = new FileWriter("reunion" + numeroReunion + ".txt");
+                DateTimeFormatter formatter = DateTimeFormatter
+                        .ofPattern("dd/MM/yyyy HH:mm:ss")
                         .withZone(ZoneId.systemDefault());
-                if(atrasos.getEmpleadosTarde().contains(empleado)){
-                    Duration retrasoEmpleado = Duration.between(horaInicio, atrasos.getAtraso(empleado));
-                    String retrasoFormateado = String.format("%d:%02d",
-                            retrasoEmpleado.toMinutes(),
-                            retrasoEmpleado.toSecondsPart());
-
-                    writer.write(" // Retraso: " + retrasoFormateado + "\n");
-                } else {
-                    writer.write("\n");
+                writer.write("Fecha y hora de inicio prevista: "+ formatter.format(horaPrevista) + "\n");
+                writer.write("Hora de inicio de la reunion: " + formatter.format(horaInicio)+"\n");
+                writer.write("Hora de fin de la reunion: " + formatter.format(horaFin) + "\n");
+                Duration duracionReunion = Duration.between(horaInicio,horaFin);
+                writer.write("Duracion de la reunion: " + duracionReunion.toMinutes()+"\n");
+                writer.write("Tipo de reunion: " + tipo+"\n");
+                if(this instanceof ReunionPresencial){
+                    writer.write("La reunion fue presencial, la sala fue: " + ((ReunionPresencial) this).getSala());
+                } else if(this instanceof ReunionVirtual){
+                    writer.write("La reunion fue virtual, el enlace fue: " + ((ReunionVirtual) this).getEnlace());
                 }
+                writer.write("\n");
+                writer.write("Lista de participantes y informacion sobre retrasos: \n");
+                for(Empleado empleado : asistencias.getAsistencias()){
+                    writer.write(empleado.getNombre()+ " " + empleado.getApellidos());
+                    DateTimeFormatter formatterDuration = DateTimeFormatter
+                            .ofPattern("mm:ss")
+                            .withZone(ZoneId.systemDefault());
+                    if(atrasos.getEmpleadosTarde().contains(empleado)){
+                        Duration retrasoEmpleado = Duration.between(horaInicio, atrasos.getAtraso(empleado));
+                        String retrasoFormateado = String.format("%d:%02d",
+                                retrasoEmpleado.toMinutes(),
+                                retrasoEmpleado.toSecondsPart());
+
+                        writer.write(" // Retraso: " + retrasoFormateado + "\n");
+                    } else {
+                        writer.write("\n");
+                    }
+                }
+                writer.write("Notas de la reunion en orden cronologico:\n");
+                for(String nota : notas){
+                    writer.write(nota + "\n");
+                }
+                writer.close();
+            } catch (IOException e){
+                System.out.println("Ocurrió un error: " + e.getMessage());
             }
-            writer.write("Notas de la reunion en orden cronologico:\n");
-            for(String nota : notas){
-                writer.write(nota + "\n");
-            }
-            writer.close();
-        } catch (IOException e){
-            System.out.println("Ocurrió un error: " + e.getMessage());
         }
+
     }
     public Instant getFecha() {
         return fecha;
