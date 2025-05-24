@@ -27,6 +27,9 @@ public class Retraso extends Asistencia {
      * @param empleado El empleado que llegó tarde.
      */
     public void agregarEmpleadoTarde(Empleado empleado) {
+        if (empleado == null){
+            return;
+        }
         super.agregarEmpleado(empleado);
         atrasados.add(empleado);
         horasLlegada.add(Instant.now());

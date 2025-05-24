@@ -81,7 +81,6 @@ public abstract class Reunion {
      *
      */
     public void marcarAsistencia(Empleado empleado) {
-        // Validación de nulos
         if (empleado == null) {
             return;
         }

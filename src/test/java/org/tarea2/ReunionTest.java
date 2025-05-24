@@ -153,15 +153,30 @@ class ReunionTest {
     }
 
     @Test
-    void testCalcularTiempoReal() {
-
+    void testCalcularTiempoReal() throws InterruptedException{
+        reunion.iniciar();
+        Thread.sleep(1000);
+        reunion.finalizar();
+        assertEquals(1,reunion.calcularTiempoReal().getSeconds());
+        assertTrue(reunion.calcularTiempoReal().getSeconds() > 0);
     }
 
     @Test
     void testIniciar() {
+        assertFalse(reunion.reunionIniciada);
+        assertFalse(reunion.reunionFinalizada);
+        reunion.iniciar();
+        assertTrue(reunion.reunionIniciada);
+        assertFalse(reunion.reunionFinalizada);
     }
 
     @Test
     void testFinalizar() {
+        reunion.iniciar();
+        assertTrue(reunion.reunionIniciada);
+        assertFalse(reunion.reunionFinalizada);
+        reunion.finalizar();
+        assertTrue(reunion.reunionIniciada);
+        assertTrue(reunion.reunionFinalizada);
     }
 }

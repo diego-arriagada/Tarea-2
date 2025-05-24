@@ -16,6 +16,9 @@ public class Asistencia {
     private ArrayList<Empleado> asistentes = new ArrayList<>();
 
     public void agregarEmpleado(Empleado empleado) {
+        if (empleado == null){
+            return;
+        }
         asistentes.add(empleado);
     }
 
