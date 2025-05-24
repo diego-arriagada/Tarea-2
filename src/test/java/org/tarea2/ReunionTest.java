@@ -86,6 +86,8 @@ class ReunionTest {
         Empleado empleadoNull = null;
         Empleado empleadoAusente = new Empleado("atrasado", "atrasado", "atrasado", "atraso", departamento1);
 
+        reunion.iniciar();
+
         departamento1.invitar(reunion);
         departamento2.invitar(reunion);
         externo1.invitar(reunion);
@@ -111,6 +113,7 @@ class ReunionTest {
 
 
         reunion.finalizar();
+        System.out.println();
         reunion.marcarAsistencia(empleadoAusente);
 
 
@@ -141,11 +144,17 @@ class ReunionTest {
 
     @Test
     void testAgregarNota() {
+        Empleado empleado1 = new Empleado("nota", "nota", "nota", "nota", departamento1);
+        reunion.iniciar();
+        reunion.agregarNota("nota numero 1");
+        reunion.agregarNota("");
 
+        assertEquals(2,reunion.getNotas().size());
     }
 
     @Test
     void testCalcularTiempoReal() {
+
     }
 
     @Test
