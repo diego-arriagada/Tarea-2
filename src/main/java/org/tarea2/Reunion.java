@@ -153,7 +153,7 @@ public abstract class Reunion {
         ausencias.removeIf(asistentes::contains);
 
             try {
-                FileWriter writer = new FileWriter("reunion" + numeroReunion + ".txt");
+                FileWriter writer = new FileWriter("informes/reunion" + numeroReunion + ".txt");
                 DateTimeFormatter formatter = DateTimeFormatter
                         .ofPattern("dd/MM/yyyy HH:mm:ss")
                         .withZone(ZoneId.systemDefault());

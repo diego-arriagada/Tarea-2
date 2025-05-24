@@ -103,7 +103,7 @@ class ReunionTest {
         reunion.marcarAsistencia(externo1);
         reunion.marcarAsistencia(empleadoNoInvitado);
 
-        System.out.println(reunion.obtenerAusencias());
+
         assertTrue(reunion.obtenerAusencias().contains(empleadoAusente)); //Comprueba que las ausencias se modifiquen correctamente al inicio
         assertTrue(reunion.obtenerAusencias().contains(empleadoAntes));
         assertTrue(reunion.obtenerAusencias().contains(empleadoJusto));
@@ -113,7 +113,6 @@ class ReunionTest {
 
 
         reunion.finalizar();
-        System.out.println();
         reunion.marcarAsistencia(empleadoAusente);
 
 
