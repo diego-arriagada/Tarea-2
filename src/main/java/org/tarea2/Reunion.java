@@ -80,7 +80,7 @@ public abstract class Reunion {
      */
     public void marcarAsistencia(Empleado empleado){
         Duration auxiliarAtraso = Duration.between(Instant.now(),horaPrevista);
-        if(invitados.contains(empleado) && !asistencias.getAsistencias().contains(empleado)) {
+        if(invitados.contains(empleado) && !asistencias.getAsistencias().contains(empleado) && !reunionFinalizada) {
             if ((int) auxiliarAtraso.toSeconds() >= 0) {
                 asistencias.agregarEmpleado(empleado);
             } else {
@@ -115,9 +115,9 @@ public abstract class Reunion {
      *
      * @return El tiempo real de la reunión en minutos.
      */
-    public float calcularTiempoReal(){
+    public Duration calcularTiempoReal(){
         Duration tiempoReunion = Duration.between(horaInicio, horaFin);
-        return (float) tiempoReunion.toSeconds()/60;
+        return tiempoReunion;
     }
 
     /**
@@ -139,7 +139,8 @@ public abstract class Reunion {
     public void finalizar(){
         if(reunionIniciada && !reunionFinalizada){
             this.horaFin = Instant.now();
-            ausencias.removeAll(asistencias.getAsistencias());             //Removemos de los ausentes a todos los que llegaron
+            reunionFinalizada = true;
+            ausencias.removeIf(this.getInvitados()::contains);             //Removemos de los ausentes a todos los que llegaron
 
             try {
                 FileWriter writer = new FileWriter("reunion" + numeroReunion + ".txt");
@@ -149,7 +150,13 @@ public abstract class Reunion {
                 writer.write("Fecha y hora de inicio prevista: "+ formatter.format(horaPrevista) + "\n");
                 writer.write("Hora de inicio de la reunion: " + formatter.format(horaInicio)+"\n");
                 writer.write("Hora de fin de la reunion: " + formatter.format(horaFin) + "\n");
-                writer.write("Duracion de la reunion: " + this.calcularTiempoReal() + " minutos\n");
+                DateTimeFormatter formatterDuration = DateTimeFormatter
+                        .ofPattern("mm:ss")
+                        .withZone(ZoneId.systemDefault());
+                String duracionReunion = String.format("%d:%02d",
+                        this.calcularTiempoReal().toMinutes(),
+                        this.calcularTiempoReal().toSecondsPart());
+                writer.write("Duracion de la reunion: " + duracionReunion + "\n");
                 writer.write("Tipo de reunion: " + tipo+"\n");
                 if(this instanceof ReunionPresencial){
                     writer.write("La reunion fue presencial, la sala fue: " + ((ReunionPresencial) this).getSala());
@@ -160,9 +167,7 @@ public abstract class Reunion {
                 writer.write("Lista de participantes y informacion sobre retrasos: \n");
                 for(Empleado empleado : asistencias.getAsistencias()){
                     writer.write(empleado.getNombre()+ " " + empleado.getApellidos());
-                    DateTimeFormatter formatterDuration = DateTimeFormatter
-                            .ofPattern("mm:ss")
-                            .withZone(ZoneId.systemDefault());
+
                     if(atrasos.getEmpleadosTarde().contains(empleado)){
                         Duration retrasoEmpleado = Duration.between(horaInicio, atrasos.getAtraso(empleado));
                         String retrasoFormateado = String.format("%d:%02d",

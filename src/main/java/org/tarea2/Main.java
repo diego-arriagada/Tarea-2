@@ -22,7 +22,7 @@ public class Main {
         reun.marcarAsistencia(e2);
         Thread.sleep(2000);
         reun.finalizar();
-        System.out.println(reun.obtenerAusencias());
+        System.out.println(reun.obtenerAusencias().size());
         System.out.println(reun.obtenerAtrasos());
         System.out.println(reun.obtenerAsistencia());
         System.out.println(reun.obtenerPorcentajeAsistencia());
