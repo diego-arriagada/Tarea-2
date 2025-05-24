@@ -28,8 +28,8 @@ public abstract class Reunion {
     private Duration duracionPrevista;
     private Instant horaInicio;
     private Instant horaFin;
-    public Boolean reunionIniciada = false;
-    public Boolean reunionFinalizada = false;
+    public Boolean reunionIniciada;
+    public Boolean reunionFinalizada;
 
     private TipoReunion tipo;
     private Empleado organizador;
@@ -42,6 +42,8 @@ public abstract class Reunion {
     private ArrayList<Instant> horasLlegada = new ArrayList<>();
 
     public Reunion(Instant fecha, Instant horaPrevista, Duration duracionPrevista, TipoReunion tipo, Empleado organizador) {
+        reunionIniciada = false;
+        reunionFinalizada = false;
         contadorReuniones++;
         this.numeroReunion = contadorReuniones;
         this.fecha = fecha;
@@ -63,7 +65,7 @@ public abstract class Reunion {
             invitados.add(empleado);
         }
         if((this.obtenerAusencias().stream().filter(comp -> comp.equals(empleado)).count()) == 0){
-        ausencias.add(empleado);
+            ausencias.add(empleado);
             }
         }
 
@@ -78,15 +80,21 @@ public abstract class Reunion {
      *
      *
      */
-    public void marcarAsistencia(Empleado empleado){
-        Duration auxiliarAtraso = Duration.between(Instant.now(),horaPrevista);
-        if(invitados.contains(empleado) && !asistencias.getAsistencias().contains(empleado) && !reunionFinalizada) {
-            if ((int) auxiliarAtraso.toSeconds() >= 0) {
-                asistencias.agregarEmpleado(empleado);
-            } else {
-                asistencias.agregarEmpleado(empleado);
-                atrasos.agregarEmpleadoTarde(empleado);
-            }
+    public void marcarAsistencia(Empleado empleado) {
+        // Validación de nulos
+        if (empleado == null) {
+            return;
+        }
+        if (!invitados.contains(empleado)) {
+            return;
+        }
+        if (asistencias.getAsistencias().contains(empleado) || reunionFinalizada) {
+            return;
+        }
+        asistencias.agregarEmpleado(empleado);
+        Duration diferencia = Duration.between(horaPrevista, Instant.now());
+        if (diferencia.isPositive()) {
+            atrasos.agregarEmpleadoTarde(empleado);
         }
     }
 
@@ -137,10 +145,13 @@ public abstract class Reunion {
      * Genera un informe de la reunión en un archivo de texto.
      */
     public void finalizar(){
-        if(reunionIniciada && !reunionFinalizada){
+        if (!reunionIniciada || reunionFinalizada) {
+            return;
+        }
             this.horaFin = Instant.now();
             reunionFinalizada = true;
-            ausencias.removeIf(this.getInvitados()::contains);             //Removemos de los ausentes a todos los que llegaron
+        ArrayList<Empleado> asistentes = asistencias.getAsistencias();
+        ausencias.removeIf(asistentes::contains);
 
             try {
                 FileWriter writer = new FileWriter("reunion" + numeroReunion + ".txt");
@@ -187,7 +198,7 @@ public abstract class Reunion {
             } catch (IOException e){
                 System.out.println("Ocurrió un error: " + e.getMessage());
             }
-        }
+
 
     }
     public Instant getFecha() {
