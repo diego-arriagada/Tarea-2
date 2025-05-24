@@ -150,6 +150,7 @@ class ReunionTest {
         reunion.agregarNota("");
 
         assertEquals(2,reunion.getNotas().size());
+        assertEquals("nota numero 1",reunion.getNotas().get(0).getTexto());
     }
 
     @Test
