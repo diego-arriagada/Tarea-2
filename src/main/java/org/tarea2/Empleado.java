@@ -50,4 +50,9 @@ public class Empleado implements Invitable {
     public String getNombre() { return nombre; }
     public String getCorreo() { return correo; }
     public Departamento getDepartamento() { return departamento; }
+
+    @Override
+    public String toString() {
+        return "id = " + getId() + "\napellidos='" + getApellidos() + "\nnombre='" + getNombre() + "\ncorreo='" + getCorreo();
+    }
 }

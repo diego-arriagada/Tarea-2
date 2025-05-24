@@ -44,4 +44,9 @@ public class Retraso extends Asistencia {
         int indice = atrasados.indexOf(empleado);
         return horasLlegada.get(indice);
     }
+
+    @Override
+    public String toString() {
+        return "atrasados = " + getEmpleadosTarde() + "\nhorasLlegada = " + getHorasLlegada();
+    }
 }

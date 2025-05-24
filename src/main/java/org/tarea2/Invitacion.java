@@ -30,4 +30,13 @@ public class Invitacion {
             ((Departamento)remitente).invitar(reunion);
         }
     }
+
+    public Instant getHoraInvitacion() {
+        return horaInvitacion;
+    }
+
+    @Override
+    public String toString() {
+        return "Invitación enviada a la reunión: " + getHoraInvitacion();
+    }
 }

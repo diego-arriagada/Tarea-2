@@ -44,4 +44,9 @@ public class Departamento implements Invitable {
 
     public String getNombre() { return nombre; }
     public List<Empleado> getEmpleados() { return empleados; }
+
+    @Override
+    public String toString() {
+        return "departamento = " + getNombre() + "\nempleados = " + getEmpleados();
+    }
 }

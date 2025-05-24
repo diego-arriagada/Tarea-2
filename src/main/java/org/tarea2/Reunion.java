@@ -219,5 +219,24 @@ public abstract class Reunion {
     public ArrayList<Nota> getNotas(){
         return notas;
     }
-    
+    public TipoReunion getTipo() {
+        return tipo;
+    }
+    public Empleado getOrganizador() {
+        return organizador;
+    }
+    public int getNumeroReunion() {
+        return numeroReunion;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Numero de reunion = " + getNumeroReunion() + "\nfecha = " + getFecha() +
+                "\nhoraPrevista = " + getHoraPrevista() + "\nduracionPrevista = " + getDuracionPrevista() +
+                "\nhoraInicio = " + getHoraInicio() + "\nhoraFin = " + getHoraFin() +
+                "\ntipo = " + getTipo() + "\ninvitados = " + getInvitados() +
+                "\nasistencias = " + obtenerAsistencia() + "\nausencias = " + obtenerAusencias() +
+                "\natrasos = " + obtenerAtrasos() + "\nnotas = " + getNotas();
+    }
 }

@@ -22,4 +22,9 @@ public class Asistencia {
     public ArrayList<Empleado> getAsistencias() {
         return asistentes;
     }
+
+    @Override
+    public String toString() {
+        return "asistentes = " + getAsistencias();
+    }
 }
