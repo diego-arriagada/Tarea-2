@@ -123,7 +123,6 @@ public abstract class Reunion {
     /**
      * Método que inicia la reunión.
      *
-     * @return El tiempo restante para la reunión en minutos.
      */
     public void iniciar(){
         if(!reunionIniciada && !reunionFinalizada){

@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ReunionTest {
     private Departamento departamento1;
     private Departamento departamento2;
+    private Departamento departamento3;
     private Empleado organizador;
     private Reunion reunion;
     private Instant ahora;
@@ -26,6 +27,7 @@ class ReunionTest {
         departamento2 = new Departamento("2");
         ahora = Instant.now();
         horaPrevista = ahora.plus(5,ChronoUnit.SECONDS);
+        departamento3 = new Departamento("3");
         reunion = new ReunionPresencial(ahora, horaPrevista, Duration.ofHours(1),TipoReunion.TECNICA,organizador,"Sala 1");
     }
 
@@ -76,10 +78,14 @@ class ReunionTest {
         Empleado empleadoAntes = new Empleado("11","Galaz","Victor","victorgal@empresa.cl",departamento1);
         Empleado empleadoJusto = new Empleado("21","Perez","Juan","juanper@empresa.cl",departamento2);
         Empleado empleadoDespues = new Empleado("01", "Arriagada", "Diego", "diegoarr@empresa.cl", departamento1);
-        Empleado empleadoNoInvitado = new Empleado("22","Martinez","Nicolas","nicolasmar@empresa.cl",departamento2);
+        Empleado empleadoNoInvitado = new Empleado("22","Martinez","Nicolas","nicolasmar@empresa.cl",departamento3);
         Empleado empleadoDuplicado = new Empleado ("10","Soto","Martin","martinsot@empresa.cl",departamento1);
         Externo externo1 = new Externo("100","Catril","Matias");
         Empleado empleadoNull = null;
+
+        departamento1.invitar(reunion);
+        departamento2.invitar(reunion);
+        externo1.invitar(reunion);
 
         reunion.marcarAsistencia(empleadoNull);
         reunion.marcarAsistencia(empleadoAntes);
@@ -92,8 +98,23 @@ class ReunionTest {
         reunion.marcarAsistencia(externo1);
         reunion.marcarAsistencia(empleadoNoInvitado);
 
-        assertTrue
 
+
+
+        assertTrue(reunion.obtenerAsistencia().contains(empleadoAntes));
+        assertTrue(reunion.obtenerAsistencia().contains(empleadoJusto));
+        assertTrue(reunion.obtenerAsistencia().contains(empleadoDespues));
+        assertTrue(reunion.obtenerAsistencia().contains(empleadoDuplicado));
+        assertTrue(reunion.obtenerAsistencia().contains(externo1));
+        assertFalse(reunion.obtenerAsistencia().contains(empleadoNoInvitado));
+        assertFalse(reunion.obtenerAsistencia().contains(empleadoNull));
+
+        long conteoMismoEmpleado = reunion.obtenerAsistencia().stream().filter(empleado -> empleado.equals(empleadoDuplicado)).count();
+        assertEquals(1,conteoMismoEmpleado);
+
+        assertTrue(reunion.obtenerAtrasos().contains(empleadoDespues));
+        assertFalse(reunion.obtenerAtrasos().contains(empleadoAntes));
+        assertFalse(reunion.obtenerAtrasos().contains(empleadoJusto));
     }
 
     @Test
