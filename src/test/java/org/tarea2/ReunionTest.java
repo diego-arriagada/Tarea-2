@@ -49,7 +49,10 @@ class ReunionTest {
         reunion.agregarInvitado(empleadoNormal1);
         reunion.agregarInvitado(empleadoNormal2);
         reunion.agregarInvitado(externo1);
+        reunion.agregarInvitado(empleadoDuplicado);
+        reunion.agregarInvitado(empleadoDuplicado);
 
+        reunion.finalizar();
 
 
         assertTrue(reunion.getInvitados().contains(empleadoNormal1));
@@ -64,8 +67,7 @@ class ReunionTest {
         assertTrue(reunion.obtenerAusencias().contains(externo1));
         assertFalse(reunion.obtenerAusencias().contains(empleadoNull));
 
-        reunion.agregarInvitado(empleadoDuplicado);
-        reunion.agregarInvitado(empleadoDuplicado);
+
 
         long conteoMismoEmpleado = reunion.getInvitados().stream().filter(empleado -> empleado.equals(empleadoDuplicado)).count();
         assertEquals(1,conteoMismoEmpleado);
@@ -82,6 +84,7 @@ class ReunionTest {
         Empleado empleadoDuplicado = new Empleado ("10","Soto","Martin","martinsot@empresa.cl",departamento1);
         Externo externo1 = new Externo("100","Catril","Matias");
         Empleado empleadoNull = null;
+        Empleado empleadoAusente = new Empleado("atrasado", "atrasado", "atrasado", "atraso", departamento1);
 
         departamento1.invitar(reunion);
         departamento2.invitar(reunion);
@@ -89,7 +92,7 @@ class ReunionTest {
 
         reunion.marcarAsistencia(empleadoNull);
         reunion.marcarAsistencia(empleadoAntes);
-        Thread.sleep(5000);
+        Thread.sleep(4900);
         reunion.marcarAsistencia(empleadoJusto);
         Thread.sleep(1000);
         reunion.marcarAsistencia(empleadoDespues);
@@ -98,19 +101,38 @@ class ReunionTest {
         reunion.marcarAsistencia(externo1);
         reunion.marcarAsistencia(empleadoNoInvitado);
 
+        System.out.println(reunion.obtenerAusencias());
+        assertTrue(reunion.obtenerAusencias().contains(empleadoAusente)); //Comprueba que las ausencias se modifiquen correctamente al inicio
+        assertTrue(reunion.obtenerAusencias().contains(empleadoAntes));
+        assertTrue(reunion.obtenerAusencias().contains(empleadoJusto));
+        assertTrue(reunion.obtenerAusencias().contains(empleadoDespues));
+        assertTrue(reunion.obtenerAusencias().contains(empleadoDuplicado));
+        assertTrue(reunion.obtenerAusencias().contains(externo1));
 
 
+        reunion.finalizar();
+        reunion.marcarAsistencia(empleadoAusente);
 
-        assertTrue(reunion.obtenerAsistencia().contains(empleadoAntes));
+
+        assertTrue(reunion.obtenerAsistencia().contains(empleadoAntes)); //Test para comprobar que la lista de asistencia se modifica correctamente
         assertTrue(reunion.obtenerAsistencia().contains(empleadoJusto));
         assertTrue(reunion.obtenerAsistencia().contains(empleadoDespues));
         assertTrue(reunion.obtenerAsistencia().contains(empleadoDuplicado));
         assertTrue(reunion.obtenerAsistencia().contains(externo1));
         assertFalse(reunion.obtenerAsistencia().contains(empleadoNoInvitado));
         assertFalse(reunion.obtenerAsistencia().contains(empleadoNull));
+        assertFalse(reunion.obtenerAsistencia().contains(empleadoAusente));
 
         long conteoMismoEmpleado = reunion.obtenerAsistencia().stream().filter(empleado -> empleado.equals(empleadoDuplicado)).count();
-        assertEquals(1,conteoMismoEmpleado);
+        assertEquals(1,conteoMismoEmpleado); //Comprueba que no se puedan añadir duplicados
+
+
+        assertTrue(reunion.obtenerAusencias().contains(empleadoAusente)); //Comprueba que las ausencias se modifiquen correctamente
+        assertFalse(reunion.obtenerAusencias().contains(empleadoAntes));
+        assertFalse(reunion.obtenerAusencias().contains(empleadoJusto));
+        assertFalse(reunion.obtenerAusencias().contains(empleadoDespues));
+        assertFalse(reunion.obtenerAusencias().contains(empleadoDuplicado));
+        assertFalse(reunion.obtenerAusencias().contains(externo1));
 
         assertTrue(reunion.obtenerAtrasos().contains(empleadoDespues));
         assertFalse(reunion.obtenerAtrasos().contains(empleadoAntes));
@@ -119,6 +141,7 @@ class ReunionTest {
 
     @Test
     void testAgregarNota() {
+
     }
 
     @Test
