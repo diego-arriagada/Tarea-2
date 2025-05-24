@@ -15,6 +15,11 @@ import java.util.ArrayList;
 public class Asistencia {
     private ArrayList<Empleado> asistentes = new ArrayList<>();
 
+    /**
+     * Método que agrega un empleado a la lista de asistencia.
+     *
+     * @param empleado El empleado que asistió a la reunión.
+     */
     public void agregarEmpleado(Empleado empleado) {
         if (empleado == null){
             return;

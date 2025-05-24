@@ -22,6 +22,11 @@ public class Departamento implements Invitable {
         this.nombre = nombre;
     }
 
+    /**
+     * Método que permite agregar un empleado al departamento.
+     *
+     * @param empleado El empleado a agregar al departamento.
+     */
     public void agregarEmpleado(Empleado empleado) {
         empleados.add(empleado);
     }

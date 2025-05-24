@@ -97,6 +97,11 @@ public abstract class Reunion {
         }
     }
 
+    /**
+     * Método que agrega una nota a la reunión.
+     *
+     * @param texto El texto de la nota que se va a agregar.
+     */
     public void agregarNota(String texto) {
         Nota nota = new Nota(texto);
         notas.add(nota);
