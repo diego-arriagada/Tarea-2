@@ -149,7 +149,7 @@ public abstract class Reunion {
                 writer.write("Fecha y hora de inicio prevista: "+ formatter.format(horaPrevista) + "\n");
                 writer.write("Hora de inicio de la reunion: " + formatter.format(horaInicio)+"\n");
                 writer.write("Hora de fin de la reunion: " + formatter.format(horaFin) + "\n");
-                writer.write("Duracion de la reunion: " + this.calcularTiempoReal() + "minutos\n");
+                writer.write("Duracion de la reunion: " + this.calcularTiempoReal() + " minutos\n");
                 writer.write("Tipo de reunion: " + tipo+"\n");
                 if(this instanceof ReunionPresencial){
                     writer.write("La reunion fue presencial, la sala fue: " + ((ReunionPresencial) this).getSala());
