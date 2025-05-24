@@ -9,7 +9,7 @@ package org.tarea2;
  * @version 1.0
  */
 
-interface Invitable {
+public interface Invitable {
     /**
      * Método que permite invitar a un individuo a una reunión.
      *

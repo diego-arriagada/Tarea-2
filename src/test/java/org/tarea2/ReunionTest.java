@@ -10,6 +10,21 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * ReunionTest es una clase de prueba para la clase Reunion.
+ *
+ * Esta clase se encarga de probar los metodos de Reunion, incluyendo agregar invitados, marcar asistencia, agregar notas y calcular el tiempo real de la reunion.
+ *
+ * @author Diego Arriagada
+ * @author Victor Galaz
+ * @author Matias Catril
+ *
+ * @author Diego Arriagada
+ * @author Victor Galaz
+ * @author Matias Catril
+ * @version 1.0
+ */
 class ReunionTest {
     private Departamento departamento1;
     private Departamento departamento2;

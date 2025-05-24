@@ -7,6 +7,16 @@ import org.junit.jupiter.api.Test;
 import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.*;
+/**
+ * AsistenciaTest es una clase de prueba para la clase Asistencia.
+ *
+ * Especficamente, se encarga del caso del empleado nulo.
+ *
+ * @author Diego Arriagada
+ * @author Victor Galaz
+ * @author Matias Catril
+ * @version 1.0
+ */
 
 class AsistenciaTest extends Asistencia {
     private Departamento departamento1;

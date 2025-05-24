@@ -10,6 +10,17 @@ import java.time.temporal.ChronoUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * RetrasoTest es una clase de prueba para la clase Retraso.
+ *
+ * Prubea el caso del empleado nulo y se asegura de que el codigo guarde correctamente la hora de retraso.
+ *
+ * @author Diego Arriagada
+ * @author Victor Galaz
+ * @author Matias Catril
+ * @version 1.0
+ */
+
 class RetrasoTest extends Asistencia {
     private Departamento departamento1;
     private Empleado organizador;
