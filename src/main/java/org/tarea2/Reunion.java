@@ -216,5 +216,8 @@ public abstract class Reunion {
     public Instant getHoraFin() {
         return horaFin;
     }
+    public ArrayList<Nota> getNotas(){
+        return notas;
+    }
     
 }
